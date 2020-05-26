@@ -68,6 +68,8 @@ class SQL extends PDO {
 //método que faz acrecenta um fetchall e bota isso tudo em um array e envia para o objeto
     public function select($rawQuery, $params = array()):array{
         $stmt = $this -> query($rawQuery, $params);
+        
+        //coloca em um array que tem arrays formados com linhas do banco de dados no caso só as linhas definidas com o id
        return $stmt -> fetchall(PDO::FETCH_ASSOC);
 
     }
