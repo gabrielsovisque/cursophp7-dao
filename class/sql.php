@@ -65,6 +65,10 @@ class SQL extends PDO {
         return $stmt; // E AGORA EU ENVIO ESSE OBJETO
         
     }
+/*--------------------------------------------------------------------------------------------------------------- */    
+
+                                /*método que ajuda muito os métodos selects */
+
 //método que faz acrecenta um fetchall e bota isso tudo em um array e envia para o objeto
     public function select($rawQuery, $params = array()):array{
         $stmt = $this -> query($rawQuery, $params);
