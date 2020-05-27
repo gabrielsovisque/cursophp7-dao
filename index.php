@@ -18,11 +18,28 @@ echo json_encode($usuarios);
 
 /*-------------------------------/ usando class usuario com método LOADBYID E TOSTRING  /-------------------------------------- */
 
-
-$root = new Usuario();
-$root -> loadById(4);
-
-
+//$root = new Usuario();
+//$root -> loadById(4);
 
  //como é um objeto ele retorn o método magico tostring que é usado para retornar algo quando o objeto é usado desse jeito.
-echo $root;
+//echo $root;
+
+
+/*----------------------------/ usando class usuario com métodos getList /------------------------------- */
+
+// ele usa um método static da class usuario então ele nem precisa estanciar a class em um objeto pra usar o método
+// esse método tras todas as linhas da tabela em ordem que estão na coluna deslogin
+// echo json_encode($list = Usuario::getList());
+
+
+/*-----------------------------------------------------/ usando class usuario com método static search /---------------------------------------- */
+// esse método tras todas as linhas que começam com tais letras na coluna deslogin (método de pesquisa) 
+//echo json_encode(Usuario::search("j"));
+
+
+/*------------------------------------/ usando class usuario e o método login  /------------------------------------------------ */
+// esse método faz um select com os params definidos e se não tiver esses parâmetros, ele fala que login ou senha estão invalidos
+// como é usado os atributos da class, podemos usar o método magico __toString
+$login = new Usuario();
+$login -> login("gabriel", "heheheh");
+echo $login;
