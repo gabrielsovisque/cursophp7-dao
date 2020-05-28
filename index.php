@@ -54,8 +54,22 @@ echo json_encode($usuarios);
 //--------------------/ usando class usuario e os métodos setDeslogin, setDessenha, isert, magico __toString /------------------------------- */
 
 //instancia e envia valores para o atributo
-$aluno = new Usuario("aluno", "al!@#");
+//$aluno = new Usuario("aluno", "al!@#");
 
-$aluno -> insert();
+//$aluno -> insert();
 
-echo $aluno;
+//echo $aluno;
+
+
+/*((((((((((((((((((((((((((((((((((((((((((((((((((((((((USANDO MÉTODODS UPDATE)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) */
+
+$update = new Usuario();
+
+//definido a linha que eu quero alterar usando o método loadbyid
+$update -> loadById(11);
+
+//depois simplismente passa os novos valores que vão ser alterado na tabela
+$update -> update("estudante", "foco");
+
+echo $update;
+

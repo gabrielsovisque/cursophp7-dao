@@ -63,10 +63,10 @@ class Usuario{
     //método que envia valores para todos os atributos 
     public function result($row){
         $this -> setIdusuario($row['idusuario']);
-            $this -> setDeslogin($row['deslogin']);
-            $this -> setDessenha($row['dessenha']);
-            //envia para o atributo um objeto dateTime 
-            $this -> setDtcadastro(new DateTime($row['dtcadastro']));
+        $this -> setDeslogin($row['deslogin']);
+        $this -> setDessenha($row['dessenha']);
+        //envia para o atributo um objeto dateTime 
+        $this -> setDtcadastro(new DateTime($row['dtcadastro']));
     }
 
     //método que retira valores de todos os atributos e retorna como um array
@@ -93,19 +93,20 @@ class Usuario{
     // só chama as linha que o id for informado no parâmetro
     // ele só preenche os atributos, quem vai dar algum return é o método magico toString
      public function loadById($id){
-         $sql = new sql();
+         $sql = new Sql();
 
          //objeto result vai ter o retorno do método select que é um array com os valores 
          // objeto $results contém um array e dentro desse array contem mais um array que é a linha 
          $results = $sql -> select("SELECT * FROM tb_usuarios2 WHERE idusuario = :ID", array(":ID"=>$id));
 
-         //verificando se existe pelo menos a primeira linnha que foi chamada pelo parametro id
-         if(count($results) > 0){
+        //verificando se existe pelo menos a primeira linnha que foi chamada pelo parametro id
+        if(count($results) > 0){
             // aqui ele ta colocando em uma variavel o primeiro array dentro do array maior que nesse caso é uma linha
             $row = $results[0];
             
             //aqui ele chama o método génerico que envia todos os valores do array para os atributos
             $this -> result($row);
+    
             
          }
      }
@@ -202,7 +203,28 @@ class Usuario{
 
      }
 
+ 
+/*--------------------------------------------------------------------------------------------------------------------- */
 
+                                /*(((((((((((((((( UPDATE )))))))))))))))) */
+
+
+    //depois de prencher os atributos  da linha que eu quero mudar com o método loadbyid o método update pega os novos valores
+    // e pega o id da linha no atributo preenchido com o método loadbyid e altera a tabela executando o query
+    // depois da usa o __toString pra ver como ficou a linha alterada
+     public function update($login, $password){
+        $this -> setDeslogin($login);
+        $this -> setDessenha($password);
+
+         $sql = new Sql();
+
+         $sql -> query("UPDATE tb_usuarios2 SET deslogin = :LOGIN, dessenha = :PASSWORD WHERE idusuario =  :ID; ",
+        array(
+            ":LOGIN" => $this -> getDeslogin(),
+            ":PASSWORD" => $this -> getDessenha(),
+            ":ID" => $this -> getIdusuario()
+        ));
+     }
 
 
 
