@@ -63,13 +63,22 @@ echo json_encode($usuarios);
 
 /*((((((((((((((((((((((((((((((((((((((((((((((((((((((((USANDO MÉTODODS UPDATE)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) */
 
-$update = new Usuario();
+//$update = new Usuario();
 
 //definido a linha que eu quero alterar usando o método loadbyid
-$update -> loadById(11);
+//$update -> loadById(11);
 
 //depois simplismente passa os novos valores que vão ser alterado na tabela
-$update -> update("estudante", "foco");
+//$update -> update("estudante", "foco");
 
-echo $update;
+//echo $update;
 
+
+/*((((((((((((((((((((((((((((((((((((((((((((((((((((((((USANDO MÉTODODS DELETE)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) */
+
+$delete = new Usuario;
+$delete -> loadById(10);
+
+$delete -> delete();
+
+echo $delete;

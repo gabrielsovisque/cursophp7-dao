@@ -227,6 +227,29 @@ class Usuario{
      }
 
 
+     /*--------------------------------------------------------------------------------------------------------------------- */
+
+                                    /*(((((((((((((((( DELETE )))))))))))))))) */
+
+                
+    //depois de prencher os atributos  da linha que eu quero mudar com o método loadbyid o método DELETE pega o id do atributo e deleta a linha
+    //e deixa vazio os atributos
+    public function delete(){
+        $sql = new Sql();
+
+        $sql -> query("DELETE FROM tb_usuarios2 WHERE idusuario = :ID;", array(
+            ":ID" => $this -> getIdusuario()
+        ));
+
+        $this -> setIdusuario(0);
+        $this -> setDeslogin("");
+        $this -> setDessenha("");
+        //envia para o atributo um objeto dateTime 
+        $this -> setDtcadastro(new DateTime());
+        
+    }
+    
+
 
 
 
