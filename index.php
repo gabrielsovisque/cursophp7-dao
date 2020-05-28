@@ -6,6 +6,12 @@
 */
 require_once "config.php";
 
+
+/*(((((((((((((((((((((((((((((((((((((((((((((((((((((((( USANDO MÉTODODS SELECTS )))))))))))))))))))))))))))))))))))))))))))))))))))))))) */
+
+
+
+
 /*
 ----------------------------------------------/ usando a class cru SQL/------------------------------------------------------------
 
@@ -40,6 +46,16 @@ echo json_encode($usuarios);
 /*------------------------------------/ usando class usuario e o método login  /------------------------------------------------ */
 // esse método faz um select com os params definidos e se não tiver esses parâmetros, ele fala que login ou senha estão invalidos
 // como é usado os atributos da class, podemos usar o método magico __toString
-$login = new Usuario();
-$login -> login("gabriel", "heheheh");
-echo $login;
+//$login = new Usuario();
+//$login -> login("gabriel", "heheheh");
+//echo $login;
+/*((((((((((((((((((((((((((((((((((((((((((((((((((((((((USANDO MÉTODODS INSERTS)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) */
+
+//--------------------/ usando class usuario e os métodos setDeslogin, setDessenha, isert, magico __toString /------------------------------- */
+
+//instancia e envia valores para o atributo
+$aluno = new Usuario("aluno", "al!@#");
+
+$aluno -> insert();
+
+echo $aluno;

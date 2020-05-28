@@ -48,6 +48,41 @@ class Usuario{
         $this -> dtcadastro = $dtcadastro;
     }
 
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+
+                                    // __toString para mostrar os valores dos atributos para o objeto
+                                    // __construct para inserir os valores nos atributos
+
+
+
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------*/
+                    
+                 /*(((((((((((((((((((((((((( MÉTODOS QUE USAM OS ATRIBOS DE FORMA GENÉRICAS )))))))))))))))))))))))))) */
+
+    //método que envia valores para todos os atributos 
+    public function result($row){
+        $this -> setIdusuario($row['idusuario']);
+            $this -> setDeslogin($row['deslogin']);
+            $this -> setDessenha($row['dessenha']);
+            //envia para o atributo um objeto dateTime 
+            $this -> setDtcadastro(new DateTime($row['dtcadastro']));
+    }
+
+    //método que retira valores de todos os atributos e retorna como um array
+    public function selectAtributs(){
+        return array(
+            "idusuario"=> $this -> getIdusuario(),
+            "deslogin"=> $this -> getDeslogin(),
+            "dessenha"=> $this -> getDessenha(),
+            // o valor do atributo dtcadastro é um objeto que tem o valor e 
+            //um método nativo datetime então da pra estanciar de novo esse valor para formatar como eu quiser 
+            "dtcadastro"=> $this -> getDtcadastro() -> format("d/m/y H:i:s")
+        );
+    }
+
+
+
 
 /*--------------------------------------------------------------------------------------------------------------------- */
 
@@ -69,12 +104,9 @@ class Usuario{
             // aqui ele ta colocando em uma variavel o primeiro array dentro do array maior que nesse caso é uma linha
             $row = $results[0];
             
-            //aqui ele ta enviando os dados dessa subarray que na verdade é uma linha para o atributo 
-            $this -> setIdusuario($row['idusuario']);
-            $this -> setDeslogin($row['deslogin']);
-            $this -> setDessenha($row['dessenha']);
-            //envia para o atributo um objeto dateTime 
-            $this -> setDtcadastro(new DateTime($row['dtcadastro']));
+            //aqui ele chama o método génerico que envia todos os valores do array para os atributos
+            $this -> result($row);
+            
          }
      }
 
@@ -114,12 +146,8 @@ class Usuario{
             // aqui ele ta colocando em uma variavel o primeiro array dentro do array maior que nesse caso é uma linha
             $row = $results[0];
             
-            //aqui ele ta enviando os dados dessa subarray que na verdade é uma linha para o atributo 
-            $this -> setIdusuario($row['idusuario']);
-            $this -> setDeslogin($row['deslogin']);
-            $this -> setDessenha($row['dessenha']);
-            //envia para o atributo um objeto dateTime 
-            $this -> setDtcadastro(new DateTime($row['dtcadastro']));
+            //aqui ele chama o método génerico que envia todos os valores do array para os atributos
+            $this -> result($row);
             
             //se não retornar nada, é porque não tinha uma linha com esses parâmetros passados resumindo, usuario ou senha errado 
          } else{
@@ -135,14 +163,50 @@ class Usuario{
      public function __toString(){
 
         //ele vai retorna um dado json criado com um array formado dos atributos 
-         return json_encode(array(
-             "idusuario"=> $this -> getIdusuario(),
-             "deslogin"=> $this -> getDeslogin(),
-             "dessenha"=> $this -> getDessenha(),
-             // o valor do atributo dtcadastro é um objeto que tem o valor e 
-             //um método nativo datetime então da pra estanciar de novo esse valor para formatar como eu quiser 
-             "dtcadastro"=> $this -> getDtcadastro() -> format("d/m/y H:i:s")
-         ));
+         return json_encode($this -> selectAtributs());
      }
+
+     /*--------------------------------------------------------------------------------------------------------------------- */
+
+                                    /*(((((((((((((((( INSERT )))))))))))))))) */
+
+     // método insert ele insere uma linha e preenche os atributos com a linha inserida na tabela
+     public function insert(){
+         
+        //instancea a class sql pra executar algum comando
+        $sql = new Sql();
+
+        //executa o método SELECT PORQUE ele só não inseriri uma tabela mas vai retornar a linha inserida e o método select pega essa linha e
+        //transforma em um array de arrays no caso só um array porque ele retorna só uma linha 
+        $result = $sql -> select("CALL sp_usuarios_insert(:DESLOGIN, :DESSENHA)",  array( // CALL (usado para usar um PROSEGURI)
+            
+            //ele vai inserir no atributo pelo método setDeslogin e setDessenha no objeto no arquivo index
+            ":DESLOGIN" => $this-> getDeslogin(),
+            ":DESSENHA" => $this -> getDessenha()
+        ) );
+
+        //verifica se retornou algum array 
+        if (count($result) > 0) {
+            
+            //envia para os atributos
+            $this -> result($result[0]);
+        }
+     }                                       
+ 
+
+     //MÉTODO MAGICO CONSTRUTUTOR PARA INSERIR VALORES NOS ATRIBUTOS e coloca opcional a passagem de parâmetros
+     public function __construct($login = "", $password = ""){
+        $this -> setDeslogin($login);
+        $this -> setDessenha($password);
+
+
+     }
+
+
+
+
+
+
+
 }
 ?>
